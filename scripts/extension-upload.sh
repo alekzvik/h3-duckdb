@@ -16,9 +16,9 @@ ext="build/release/extension/$1/$1.duckdb_extension"
 gzip < "${ext}" > "$ext.gz"
 
 # upload compressed extension binary to S3
-aws s3 cp $ext.gz s3://$5/$1/$2/$3/$4/$1.duckdb_extension.gz --acl public-read
+aws s3 cp $ext.gz s3://$5/$1/$2/$3/$4/$1.duckdb_extension.gz
 
 # upload to latest if copy_to_latest is set to true
 if [[ $6 = 'true' ]]; then
-  aws s3 cp $ext.gz s3://$5/$1/latest/$3/$4/$1.duckdb_extension.gz --acl public-read
+  aws s3 cp $ext.gz s3://$5/$1/latest/$3/$4/$1.duckdb_extension.gz
 fi
