@@ -13,6 +13,8 @@ defaults:
 
 jobs:
   nodejs:
+    # Skip for now as we do not have nodejs tests
+    if: false
     name: NodeJS
     runs-on: ubuntu-latest
     env:
