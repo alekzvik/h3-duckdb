@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         # Add commits/tags to build against other DuckDB versions
-        duckdb_version: [ '<submodule_version>' ]
+        duckdb_version: [ '<submodule_version>', 'v0.8.1' ]
         osx_build_arch: [ 'x86_64', 'arm64' ]
         include:
           - osx_build_arch: 'x86_64'
@@ -88,5 +88,5 @@ jobs:
             ./scripts/extension-upload.sh h3 ${{ github.ref_name }} $DUCKDB_VERSION ${{matrix.duckdb_arch}} $BUCKET_NAME true
           elif [[ "$GITHUB_REF" =~ ^(refs/heads/main)$ ]] ; then
             python3 -m pip install pip awscli
-            ./scripts/extension-upload.sh h3 `git log -1 --format=%h` $DUCKDB_VERSION ${{matrix.duckdb_arch}} $BUCKET_NAME false
+            ./scripts/extension-upload.sh h3 `git log -1 --format=%h` $DUCKDB_VERSION ${{matrix.duckdb_arch}} $BUCKET_NAME true
           fi
