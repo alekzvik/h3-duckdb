@@ -56,12 +56,6 @@ jobs:
       if: ${{ matrix.arch == 'linux_amd64_gcc4' }}
       run: |
         ./duckdb/scripts/setup_manylinux2014.sh general aws-cli ccache ssh python_alias
-
-    - name: Checkout DuckDB to version
-      if: ${{ matrix.duckdb_version != '<submodule_version>'}}
-      run: |
-        cd duckdb
-        git checkout ${{ matrix.duckdb_version }}
   
     - name: Setup Ubuntu
       if: ${{ matrix.arch == 'linux_amd64' || matrix.arch == 'linux_arm64' }}
@@ -69,6 +63,15 @@ jobs:
       with:
         aarch64_cross_compile: ${{ matrix.arch == 'linux_arm64' && 1 }}
 
+    # Move this part before Setup ManyLinux2014 & Setup Ubuntu
+    # Right now, because duckdb v0.8.1 does not have the helper scripts,
+    # we first run the script, and then switch to desired version
+    - name: Checkout DuckDB to version
+      if: ${{ matrix.duckdb_version != '<submodule_version>'}}
+      run: |
+        cd duckdb
+        git checkout ${{ matrix.duckdb_version }}
+  
     - name: Build extension
       env:
         GEN: ninja
